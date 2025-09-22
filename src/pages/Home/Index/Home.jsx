@@ -1,6 +1,10 @@
+import Advantage from "../Advantage/Advantage";
 import Banner from "../Banner/Banner";
+import BeMarchant from "../BeMarchant/BeMarchant";
 import Brands from "../Brands/Brands";
+import Faq from "../Faq/Faq";
 import Process from "../Process/Process";
+import Reviews from "../Reviews/Reviews";
 import Services from "../Service/Services";
 
 const Home = () => {
@@ -10,6 +14,10 @@ const Home = () => {
       <Process></Process>
       <Services></Services>
       <Brands></Brands>
+      <Advantage></Advantage>
+      <BeMarchant></BeMarchant>
+      <Reviews></Reviews>
+      <Faq></Faq>
     </div>
   );
 };
