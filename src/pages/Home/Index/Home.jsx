@@ -10,14 +10,30 @@ import Services from "../Service/Services";
 const Home = () => {
   return (
     <div className="my-5">
-      <Banner></Banner>
-      <Process></Process>
-      <Services></Services>
-      <Brands></Brands>
-      <Advantage></Advantage>
-      <BeMarchant></BeMarchant>
-      <Reviews></Reviews>
-      <Faq></Faq>
+      <div>
+        <Banner></Banner>
+      </div>
+      <div>
+        <Process></Process>
+      </div>
+      <div data-aos="fade-up">
+        <Services></Services>
+      </div>
+      <div>
+        <Brands></Brands>
+      </div>
+      <div>
+        <Advantage></Advantage>
+      </div>
+      <div data-aos="zoom-in-up">
+        <BeMarchant></BeMarchant>
+      </div>
+      <div data-aos="fade-right">
+        <Reviews></Reviews>
+      </div>
+      <div data-aos="fade-left">
+        <Faq></Faq>
+      </div>
     </div>
   );
 };
