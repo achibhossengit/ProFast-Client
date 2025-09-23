@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../Logo/Logo";
+import NavItems from "../Navbar/NavItems";
 
 const Footer = () => {
   return (
@@ -12,8 +13,10 @@ const Footer = () => {
           time, every time.
         </p>
         {/* page links */}
-        <div>
-          
+        <div className="navbar-center hidden lg:flex border-y border-dashed border-gray-500">
+          <ul className="menu menu-horizontal px-1">
+            <NavItems></NavItems>
+          </ul>
         </div>
       </aside>
       <nav>

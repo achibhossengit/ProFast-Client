@@ -31,7 +31,7 @@ const AuthProvider = ({ children }) => {
 
   const logoutUser = () => {
     setAuthLoading(true)
-    return signOut();
+    return signOut(auth);
   };
 
   useEffect(() => {

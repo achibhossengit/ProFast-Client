@@ -1,17 +1,16 @@
-import { Link, NavLink } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Logo from "../Logo/Logo";
+import NavItems from "./NavItems";
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = () => {
-  const navItems = (
-    <>
-      <li>
-        <NavLink to={"/"}>Home</NavLink>
-      </li>
-      <li>
-        <NavLink to={"/about"}>About Us</NavLink>
-      </li>
-    </>
-  );
+  const { user, logoutUser } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logoutUser()
+      .then(() => navigate("/login"))
+      .catch((error) => console.log(error));
+  };
   return (
     <div className="navbar">
       <div className="navbar-start">
@@ -37,21 +36,59 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
-            {navItems}
+            <NavItems></NavItems>
           </ul>
         </div>
         <Logo></Logo>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{navItems}</ul>
+        <ul className="menu menu-horizontal px-1">
+          <NavItems></NavItems>
+        </ul>
       </div>
       <div className="navbar-end gap-2">
-        <Link to={"/register"} className="btn btn-outline">
-          Register
-        </Link>
-        <Link to={"/login"} className="btn">
-          Login
-        </Link>
+        {!user ? (
+          <>
+            <Link to={"/login"} className="btn btn-outline btn-primary text-black">
+              Login
+            </Link>
+            <Link to={"/register"} className="btn btn-primary">
+              Register
+            </Link>
+          </>
+        ) : (
+          <>
+            <div className="flex gap-2">
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-10 rounded-full">
+                    <img
+                      alt="Tailwind CSS Navbar component"
+                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    />
+                  </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                >
+                  <li>
+                    <Link to={"/profile"} className="justify-between">
+                      Profile
+                    </Link>
+                  </li>
+                  <li onClick={handleLogout}>
+                    <a>Logout</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
