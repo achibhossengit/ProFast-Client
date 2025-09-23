@@ -7,6 +7,7 @@ import Register from "../pages/Authentication/Register/Register";
 import NotFound from "../pages/NotFound/NotFound";
 import PrivateRoutes from "../routes/PrivateRoutes";
 import Services from "../pages/Services/Services";
+import Coverage from "../pages/Coverage/Coverage";
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ export const router = createBrowserRouter([
     Component: RootLayout,
     children: [
       { index: true, Component: Home },
+      { path: "/services", Component: Coverage },
       {
         path: "services",
         element: (
