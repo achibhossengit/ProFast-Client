@@ -1,10 +1,20 @@
-const SocialLogin = () => {
+import { useNavigate } from "react-router";
+import useAuth from "../../../hooks/useAuth";
+
+const SocialLogin = ({ from }) => {
+  const { authLoading, loginWithGoogle } = useAuth();
+  const navigate = useNavigate();
   const handleSocialLogin = () => {
-    console.log("clicked handlesocial login");
+    loginWithGoogle()
+      .then((res) => {
+        if (res.user.accessToken) navigate(from);
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
     <button
+      disabled={authLoading}
       onClick={handleSocialLogin}
       className="btn bg-white text-black border-[#e5e5e5] w-full"
     >

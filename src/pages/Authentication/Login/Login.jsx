@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../Shared/SocialLogin";
+import useAuth from "../../../hooks/useAuth";
 
 const Login = () => {
   const {
@@ -9,9 +10,18 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const { loginUser, authLoading } = useAuth();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state || "/";
+
   const onSubmit = (data) => {
-    console.log("cliked onsubmit");
-    console.log(data);
+    loginUser(data.email, data.password)
+      .then((res) => {
+        if (res?.user?.accessToken) navigate(from);
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <div>
@@ -49,7 +59,9 @@ const Login = () => {
           Forgot Password?
         </Link>
 
-        <button className="btn btn-primary text-black">Login</button>
+        <button disabled={authLoading} className="btn btn-primary text-black">
+          {authLoading ? "Loging..." : "Login"}{" "}
+        </button>
       </form>
 
       <p className="text-secondary">
@@ -60,7 +72,7 @@ const Login = () => {
       </p>
 
       <div className="divider"> OR </div>
-      <SocialLogin></SocialLogin>
+      <SocialLogin from={from}></SocialLogin>
     </div>
   );
 };

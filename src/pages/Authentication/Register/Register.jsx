@@ -1,6 +1,7 @@
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../Shared/SocialLogin";
 import { useForm } from "react-hook-form";
+import useAuth from "../../../hooks/useAuth";
 
 const Register = () => {
   const {
@@ -8,9 +9,18 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const { authLoading, createUser } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state || "/";
+
   const onSubmit = (data) => {
-    console.log("clicked handle register submit");
-    console.log(data);
+    createUser(data.email, data.password)
+      .then((userCredential) => {
+        if(userCredential.user?.accessToke) navigate(from)
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <div>
@@ -27,16 +37,11 @@ const Register = () => {
 
         <label className="label">Name</label>
         <input
-          {...register("name", { required: true })}
+          {...register("name")}
           type="text"
           className="input"
           placeholder="Name"
         />
-        {errors.name?.type == "required" && (
-          <span className="text-red-500 text-sm">
-            Name is required to register!
-          </span>
-        )}
 
         <label className="label">Email</label>
         <input
@@ -64,7 +69,12 @@ const Register = () => {
             : ""}{" "}
         </span>
 
-        <button className="btn btn-primary text-black mt-4">Register</button>
+        <button
+          disabled={authLoading}
+          className="btn btn-primary text-black mt-4"
+        >
+          {authLoading ? "Registering..." : "Register"}
+        </button>
       </form>
 
       <p className="text-secondary">
@@ -75,7 +85,7 @@ const Register = () => {
       </p>
 
       <div className="divider"> OR </div>
-      <SocialLogin></SocialLogin>
+      <SocialLogin from={from}></SocialLogin>
     </div>
   );
 };
