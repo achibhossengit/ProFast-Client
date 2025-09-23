@@ -8,7 +8,7 @@ const RootLayout = () => {
       <header className="bg-base-100 max-w-7xl mx-auto rounded-xl px-5">
         <Navbar></Navbar>
       </header>
-      <main className="max-w-7xl mx-auto">
+      <main className="max-w-7xl mx-auto min-h-[50vh]">
         <Outlet></Outlet>
       </main>
       <footer className="bg-black max-w-7xl mx-auto text-white rounded-2xl px-5">

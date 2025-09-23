@@ -4,12 +4,26 @@ import Home from "../pages/Home/Index/Home";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Authentication/Login/Login";
 import Register from "../pages/Authentication/Register/Register";
+import NotFound from "../pages/NotFound/NotFound";
+import PrivateRoutes from "../routes/PrivateRoutes";
+import Services from "../pages/Services/Services";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
-    children: [{ index: true, Component: Home }],
+    children: [
+      { index: true, Component: Home },
+      {
+        path: "services",
+        element: (
+          <PrivateRoutes>
+            <Services></Services>
+          </PrivateRoutes>
+        ),
+      },
+      { path: "*", Component: NotFound },
+    ],
   },
   {
     path: "/",
