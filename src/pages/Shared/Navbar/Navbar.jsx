@@ -1,9 +1,8 @@
 import { Link, useNavigate } from "react-router";
 import Logo from "../Logo/Logo";
-import NavItems from "./NavItems";
 import useAuth from "../../../hooks/useAuth";
 
-const Navbar = () => {
+const Navbar = ({ NavItems }) => {
   const { user, logoutUser } = useAuth();
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -36,20 +35,21 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
-            <NavItems></NavItems>
+            {NavItems}
           </ul>
         </div>
         <Logo></Logo>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          <NavItems></NavItems>
-        </ul>
+        <ul className="menu menu-horizontal px-1">{NavItems}</ul>
       </div>
       <div className="navbar-end gap-2">
         {!user ? (
           <>
-            <Link to={"/login"} className="btn btn-outline btn-primary text-black">
+            <Link
+              to={"/login"}
+              className="btn btn-outline btn-primary text-black"
+            >
               Login
             </Link>
             <Link to={"/register"} className="btn btn-primary">
@@ -77,8 +77,8 @@ const Navbar = () => {
                   className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
                 >
                   <li>
-                    <Link to={"/profile"} className="justify-between">
-                      Profile
+                    <Link to={"/dashboard"} className="justify-between">
+                      Dashboard
                     </Link>
                   </li>
                   <li onClick={handleLogout}>

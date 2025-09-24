@@ -1,12 +1,13 @@
 import { Outlet } from "react-router";
 import Footer from "../pages/Shared/Footer/Footer";
 import Navbar from "../pages/Shared/Navbar/Navbar";
+import NavItems from "../pages/Shared/Navbar/NavItems";
 
 const RootLayout = () => {
   return (
     <div className="bg-base-200 p-5 sm:p-10">
       <header className="bg-base-100 max-w-7xl mx-auto rounded-xl px-5">
-        <Navbar></Navbar>
+        <Navbar NavItems={<NavItems/>}></Navbar>
       </header>
       <main className="max-w-7xl mx-auto min-h-[50vh]">
         <Outlet></Outlet>
