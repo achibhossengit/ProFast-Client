@@ -2,9 +2,11 @@ import { useForm } from "react-hook-form";
 import warehouses from "../../assets/warehouses.json";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const SendParcel = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, watch, reset } = useForm();
   const parcelType = watch("parcel_type", "Document");
 
@@ -82,12 +84,22 @@ const SendParcel = () => {
         };
 
         console.log("Parcel Data Submitted:", data);
-        reset();
-        Swal.fire(
-          "Success!",
-          "Your parcel request has been submitted.",
-          "success"
-        );
+
+        axiosSecure
+          .post("parcels", data)
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.insertedId) {
+              // Todo: Redirect payment page after successfully created
+              Swal.fire(
+                "Success!",
+                "Your parcel request has been submitted. Redirecting to Payment page....",
+                "success"
+              );
+              reset();
+            }
+          })
+          .catch((error) => console.log(error));
       }
     });
   };
