@@ -8,6 +8,7 @@ import NotFound from "../pages/NotFound/NotFound";
 import PrivateRoutes from "../routes/PrivateRoutes";
 import Services from "../pages/Services/Services";
 import Coverage from "../pages/Coverage/Coverage";
+import SendParcel from "../pages/SendParcel/SendParcel";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <Services></Services>
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "send-parcel",
+        element: (
+          <PrivateRoutes>
+            <SendParcel></SendParcel>
           </PrivateRoutes>
         ),
       },
