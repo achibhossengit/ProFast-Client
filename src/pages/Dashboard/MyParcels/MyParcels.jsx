@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import ParcelsTable from "./ParcelsTable";
 import Swal from "sweetalert2";
 import ParcelDetails from "./ParcelDetails";
 import UpdateParcelModal from "./UpdateParcelModal";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MyParcels = () => {
   const axiosSecure = useAxiosSecure();

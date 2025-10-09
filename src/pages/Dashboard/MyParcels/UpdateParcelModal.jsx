@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 
 const UpdateParcelModal = ({ parcel, onClose, onUpdated }) => {
