@@ -8,9 +8,11 @@ import NotFound from "../pages/NotFound/NotFound";
 import PrivateRoutes from "../routes/PrivateRoutes";
 import Services from "../pages/Services/Services";
 import Coverage from "../pages/Coverage/Coverage";
-import SendParcel from "../pages/SendParcel/SendParcel";
+import SendParcel from "../pages/Dashboard/SendParcel/SendParcel";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyParcels from "../pages/Dashboard/MyParcels/MyParcels";
+import Payment from "../pages/Dashboard/Payment/Payment";
+import ParcelDetails from "../pages/Dashboard/ParcelDetails/ParcelDetails";
 
 export const router = createBrowserRouter([
   {
@@ -18,20 +20,12 @@ export const router = createBrowserRouter([
     Component: RootLayout,
     children: [
       { index: true, Component: Home },
-      { path: "/services", Component: Coverage },
+      { path: "services", Component: Coverage },
       {
         path: "services",
         element: (
           <PrivateRoutes>
             <Services></Services>
-          </PrivateRoutes>
-        ),
-      },
-      {
-        path: "send-parcel",
-        element: (
-          <PrivateRoutes>
-            <SendParcel></SendParcel>
           </PrivateRoutes>
         ),
       },
@@ -45,7 +39,14 @@ export const router = createBrowserRouter([
         <DashboardLayout></DashboardLayout>
       </PrivateRoutes>
     ),
-    children: [{ index: true, Component: MyParcels }],
+    children: [
+      { path: "my-parcels", Component: MyParcels },
+      { path: "my-parcels/:id", Component: ParcelDetails },
+      {
+        path: "send-parcel",
+        Component: SendParcel,
+      },
+    ],
   },
   {
     path: "/",

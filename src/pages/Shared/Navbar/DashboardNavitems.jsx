@@ -4,13 +4,13 @@ const DashboardNavitems = () => {
   return (
     <>
       <li>
-        <NavLink to={"/"}>Home</NavLink>
+        <NavLink to={"/dashboard/my-parcels"}>My Parcels</NavLink>
       </li>
       <li>
-        <NavLink to={"/dashboard"}>My Parcels</NavLink>
+        <NavLink to={"/dashboard/send-parcel"}>Send Parcel</NavLink>
       </li>
       <li>
-        <NavLink to={"/profile"}>Profile</NavLink>
+        <NavLink to={"/dashboard/profile"}>My Profile</NavLink>
       </li>
     </>
   );

@@ -1,43 +1,35 @@
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { Link } from "react-router";
 
-const ParcelsTable = ({ parcels, onDelete, onUpdate, onDetails }) => {
+const ParcelsTable = ({ parcels }) => {
   return (
     <div className="overflow-x-auto">
       <table className="table w-full">
         <thead>
           <tr>
+            <th>No</th>
+            <th>Date</th>
             <th>Parcel Name</th>
             <th>Type</th>
-            <th>Payment</th>
-            <th>Status</th>
-            <th>Date</th>
             <th>Receiver</th>
-            <th>Actions</th>
+            <th>Status</th>
+            <th>Payment</th>
           </tr>
         </thead>
         <tbody>
-          {parcels.map((parcel) => (
+          {parcels.map((parcel, index) => (
             <tr key={parcel._id}>
+              <td>{index + 1}</td>
+              <td>{new Date(parcel.created_at).toLocaleDateString()}</td>
               <td>
-                <button
+                <Link
+                  to={`/dashboard/my-parcels/${parcel._id}`}
                   className="text-primary hover:underline"
-                  onClick={() => onDetails(parcel._id)}
                 >
                   {parcel.parcel_name}
-                </button>
+                </Link>
               </td>
-              <td >{parcel.parcel_type}</td>
-              <td>
-                <span
-                  className={`badge ${
-                    parcel.payment_status === "paid"
-                      ? "badge-success"
-                      : "badge-warning"
-                  }`}
-                >
-                  {parcel.payment_status}
-                </span>
-              </td>
+              <td>{parcel.parcel_type}</td>
+              <td>{parcel.receiver_name}</td>
               <td>
                 <span
                   className={`badge ${
@@ -49,21 +41,17 @@ const ParcelsTable = ({ parcels, onDelete, onUpdate, onDetails }) => {
                   {parcel.delivery_status}
                 </span>
               </td>
-              <td>{new Date(parcel.created_at).toLocaleDateString()}</td>
-              <td>{parcel.receiver_name}</td>
-              <td className="flex gap-2">
-                <button
-                  onClick={() => onUpdate(parcel)}
-                  className="btn btn-sm btn-outline"
-                >
-                  <FiEdit />
-                </button>
-                <button
-                  onClick={() => onDelete(parcel._id)}
-                  className="btn btn-sm btn-outline btn-error"
-                >
-                  <FiTrash2 />
-                </button>
+              <td>
+                {parcel.payment_status === "paid" ? (
+                  <span className={"badge badge-success"}>Paid</span>
+                ) : (
+                  <Link
+                    className="badge badge-warning"
+                    to={`/dashboard/payments/${parcel._id}`}
+                  >
+                    Pay
+                  </Link>
+                )}
               </td>
             </tr>
           ))}
