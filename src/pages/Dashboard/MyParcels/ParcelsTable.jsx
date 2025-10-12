@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, Links } from "react-router";
 
 const ParcelsTable = ({ parcels }) => {
   return (
@@ -31,15 +31,16 @@ const ParcelsTable = ({ parcels }) => {
               <td>{parcel.parcel_type}</td>
               <td>{parcel.receiver_name}</td>
               <td>
-                <span
-                  className={`badge ${
+                <Link
+                to={`/dashboard/track-parcel/${parcel._id}`}
+                  className={`badge cursor-pointer ${
                     parcel.delivery_status === "delivered"
                       ? "badge-success"
                       : "badge-error"
                   }`}
                 >
                   {parcel.delivery_status}
-                </span>
+                </Link>
               </td>
               <td>
                 {parcel.payment_status === "paid" ? (
