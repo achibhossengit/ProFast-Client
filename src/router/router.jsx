@@ -42,6 +42,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "my-parcels", Component: MyParcels },
       { path: "my-parcels/:id", Component: ParcelDetails },
+      { path: "payments/:parcelId", Component: Payment },
       {
         path: "send-parcel",
         Component: SendParcel,
