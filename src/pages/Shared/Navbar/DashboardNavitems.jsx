@@ -7,6 +7,9 @@ const DashboardNavitems = () => {
         <NavLink to={"/dashboard/my-parcels"}>My Parcels</NavLink>
       </li>
       <li>
+        <NavLink to={"/dashboard/payment-history"}>Payment History</NavLink>
+      </li>
+      <li>
         <NavLink to={"/dashboard/send-parcel"}>Send Parcel</NavLink>
       </li>
       <li>
