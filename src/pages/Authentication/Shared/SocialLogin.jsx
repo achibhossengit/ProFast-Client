@@ -1,12 +1,17 @@
 import { useNavigate } from "react-router";
 import useAuth from "../../../hooks/useAuth";
+import useAxios from "../../../hooks/useAxios";
 
 const SocialLogin = ({ from }) => {
   const { authLoading, loginWithGoogle } = useAuth();
+  const axiosInstance = useAxios();
   const navigate = useNavigate();
   const handleSocialLogin = () => {
     loginWithGoogle()
-      .then((res) => {
+      .then(async (res) => {
+        console.log(res);
+        const email = res.user.email;
+        await axiosInstance.post("users", { email });
         if (res.user.accessToken) navigate(from);
       })
       .catch((error) => console.log(error));
