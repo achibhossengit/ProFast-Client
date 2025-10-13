@@ -1,6 +1,7 @@
 import { useState } from "react";
 import warehouses from "../../assets/warehouses.json";
 import useAuth from "../../hooks/useAuth";
+// eslint-disable-next-line
 import { motion } from "framer-motion";
 import riderImg from "../../assets/agent-pending.png";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
