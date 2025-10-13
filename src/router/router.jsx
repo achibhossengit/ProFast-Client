@@ -6,7 +6,6 @@ import Login from "../pages/Authentication/Login/Login";
 import Register from "../pages/Authentication/Register/Register";
 import NotFound from "../pages/NotFound/NotFound";
 import PrivateRoutes from "../routes/PrivateRoutes";
-import Services from "../pages/Services/Services";
 import Coverage from "../pages/Coverage/Coverage";
 import SendParcel from "../pages/Dashboard/SendParcel/SendParcel";
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -15,6 +14,7 @@ import Payment from "../pages/Dashboard/Payment/Payment";
 import ParcelDetails from "../pages/Dashboard/ParcelDetails/ParcelDetails";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import TrackParcel from "../pages/Dashboard/TrackParcel/TrackParcel";
+import BeARider from "../pages/BeARider/BeARider";
 
 export const router = createBrowserRouter([
   {
@@ -24,10 +24,10 @@ export const router = createBrowserRouter([
       { index: true, Component: Home },
       { path: "services", Component: Coverage },
       {
-        path: "services",
+        path: "be-rider",
         element: (
           <PrivateRoutes>
-            <Services></Services>
+            <BeARider></BeARider>
           </PrivateRoutes>
         ),
       },
