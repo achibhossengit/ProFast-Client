@@ -16,6 +16,9 @@ const DashboardNavitems = () => {
         <NavLink to={"/dashboard/rider-applications"}>Applications</NavLink>
       </li>
       <li>
+        <NavLink to={"/dashboard/riders"}>Riders</NavLink>
+      </li>
+      <li>
         <NavLink to={"/dashboard/profile"}>My Profile</NavLink>
       </li>
     </>
