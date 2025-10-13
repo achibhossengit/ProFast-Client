@@ -15,6 +15,7 @@ import ParcelDetails from "../pages/Dashboard/ParcelDetails/ParcelDetails";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import TrackParcel from "../pages/Dashboard/TrackParcel/TrackParcel";
 import BeARider from "../pages/BeARider/BeARider";
+import RiderApplications from "../pages/Dashboard/RiderApplications/RiderApplications";
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +52,7 @@ export const router = createBrowserRouter([
       },
       { path: "payment-history", Component: PaymentHistory },
       { path: "track-parcel/:id?", Component: TrackParcel },
+      { path: "rider-applications", Component: RiderApplications },
     ],
   },
   {
