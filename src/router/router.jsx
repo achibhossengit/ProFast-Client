@@ -18,6 +18,7 @@ import BeARider from "../pages/BeARider/BeARider";
 import RiderApplications from "../pages/Dashboard/RiderApplications/RiderApplications";
 import ActiveRiders from "../pages/Dashboard/ActiveRiders/ActiveRiders";
 import AdminRoute from "../routes/AdminRoute";
+import Forbidden from "../pages/Forbiden/Forbiden";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,7 @@ export const router = createBrowserRouter([
           </PrivateRoutes>
         ),
       },
+      { path: "forbiden", Component: Forbidden },
       { path: "*", Component: NotFound },
     ],
   },
