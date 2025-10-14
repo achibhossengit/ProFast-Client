@@ -3,7 +3,6 @@ import useUserRole from "../../../hooks/useUserRole";
 
 const DashboardNavitems = () => {
   const { userRole, roleLoading } = useUserRole();
-  console.log(userRole);
   return (
     <>
       <li>
@@ -25,6 +24,9 @@ const DashboardNavitems = () => {
           </li>
           <li>
             <NavLink to={"/dashboard/riders"}>Riders</NavLink>
+          </li>
+          <li>
+            <NavLink to={"/dashboard/assign-rider"}>Assign Rider</NavLink>
           </li>
         </>
       )}

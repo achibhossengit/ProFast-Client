@@ -19,6 +19,7 @@ import RiderApplications from "../pages/Dashboard/RiderApplications/RiderApplica
 import ActiveRiders from "../pages/Dashboard/ActiveRiders/ActiveRiders";
 import AdminRoute from "../routes/AdminRoute";
 import Forbidden from "../pages/Forbiden/Forbiden";
+import AssignRider from "../pages/Dashboard/AssignRider/AssignRider";
 
 export const router = createBrowserRouter([
   {
@@ -56,6 +57,14 @@ export const router = createBrowserRouter([
       },
       { path: "payment-history", Component: PaymentHistory },
       { path: "track-parcel/:id?", Component: TrackParcel },
+      {
+        path: "assign-rider",
+        element: (
+          <AdminRoute>
+            <AssignRider />
+          </AdminRoute>
+        ),
+      },
       {
         path: "rider-applications",
         element: (

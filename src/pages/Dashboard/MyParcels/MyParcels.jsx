@@ -7,7 +7,7 @@ const MyParcels = () => {
   const { data: parcels = [], isLoading } = useQuery({
     queryKey: ["parcels"],
     queryFn: async () => {
-      const res = await axiosSecure.get("parcels");
+      const res = await axiosSecure.get("my-parcels");
       return res.data;
     },
   });
