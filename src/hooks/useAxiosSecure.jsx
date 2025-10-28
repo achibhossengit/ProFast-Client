@@ -6,7 +6,7 @@ const useAxiosSecure = () => {
   const { user, logoutUser } = useAuth();
   const navigate = useNavigate();
   const axiosSecure = axios.create({
-    baseURL: "http://localhost:5000/",
+    baseURL: "https://pro-fast-server-rose.vercel.app/",
   });
 
   axiosSecure.interceptors.request.use(async (config) => {
@@ -19,7 +19,7 @@ const useAxiosSecure = () => {
 
   axiosSecure.interceptors.response.use(
     (response) => {
-    return  response;
+      return response;
     },
     (error) => {
       if (error.status === 403) {
