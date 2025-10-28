@@ -20,6 +20,10 @@ import ActiveRiders from "../pages/Dashboard/ActiveRiders/ActiveRiders";
 import AdminRoute from "../routes/AdminRoute";
 import Forbidden from "../pages/Forbiden/Forbiden";
 import AssignRider from "../pages/Dashboard/AssignRider/AssignRider";
+import RiderRoute from "../routes/RiderRoute";
+import PendingDeliveries from "../pages/Dashboard/PendingDeliveries/PendingDeliveries";
+import CompeletedDeliveries from "../pages/Dashboard/CompeletedDeliveries/CompeletedDeliveries";
+import MyEarnings from "../pages/Dashboard/MyEarnings/MyEarnings";
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +61,8 @@ export const router = createBrowserRouter([
       },
       { path: "payment-history", Component: PaymentHistory },
       { path: "track-parcel/:id?", Component: TrackParcel },
+
+      // admin only routes
       {
         path: "assign-rider",
         element: (
@@ -79,6 +85,32 @@ export const router = createBrowserRouter([
           <AdminRoute>
             <ActiveRiders />
           </AdminRoute>
+        ),
+      },
+
+      // rider only routes
+      {
+        path: "pendingDeliveries",
+        element: (
+          <RiderRoute>
+            <PendingDeliveries></PendingDeliveries>
+          </RiderRoute>
+        ),
+      },
+      {
+        path: "completedDeliveries",
+        element: (
+          <RiderRoute>
+            <CompeletedDeliveries></CompeletedDeliveries>
+          </RiderRoute>
+        ),
+      },
+      {
+        path: "myEarnings",
+        element: (
+          <RiderRoute>
+            <MyEarnings></MyEarnings>
+          </RiderRoute>
         ),
       },
     ],
