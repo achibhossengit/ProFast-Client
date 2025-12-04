@@ -1,36 +1,51 @@
 import { NavLink } from "react-router";
 import useUserRole from "../../../hooks/useUserRole";
+import {
+  FaBox,
+  FaCreditCard,
+  FaPaperPlane,
+  FaUser,
+  FaTruck,
+  FaCheckCircle,
+  FaDollarSign,
+  FaClipboardList,
+  FaUsers,
+  FaUserPlus,
+  FaClipboardCheck,
+  FaWarehouse,
+  FaHistory,
+  FaSignOutAlt,
+} from "react-icons/fa";
+import { useContext } from "react";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const DashboardNavitems = () => {
+  const { logoutUser } = useContext(AuthContext);
   const { userRole, roleLoading } = useUserRole();
   return (
     <>
-      <li>
-        <NavLink to={"/dashboard/my-parcels"}>My Parcels</NavLink>
-      </li>
-      <li>
-        <NavLink to={"/dashboard/payment-history"}>Payment History</NavLink>
-      </li>
-      <li>
-        <NavLink to={"/dashboard/send-parcel"}>Send Parcel</NavLink>
-      </li>
-      <li>
-        <NavLink to={"/dashboard/profile"}>My Profile</NavLink>
-      </li>
-
       {/* rider links */}
       {!roleLoading && userRole === "rider" && (
         <>
           <li>
             <NavLink to={"/dashboard/pendingDeliveries"}>
-              Pending Delivery
+              <FaTruck /> Pending Delivery
             </NavLink>
           </li>
           <li>
-            <NavLink to={"/dashboard/completedDeliveries"}>Completed</NavLink>
+            <NavLink to={"/dashboard/completedDeliveries"}>
+              <FaCheckCircle /> Completed
+            </NavLink>
           </li>
           <li>
-            <NavLink to={"/dashboard/myEarnings"}>Earnings</NavLink>
+            <NavLink to={"/dashboard/myDeliveries"}>
+              <FaClipboardCheck /> My Deliveries
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={"/dashboard/myEarnings"}>
+              <FaDollarSign /> Earnings
+            </NavLink>
           </li>
         </>
       )}
@@ -39,16 +54,64 @@ const DashboardNavitems = () => {
       {!roleLoading && userRole === "admin" && (
         <>
           <li>
-            <NavLink to={"/dashboard/rider-applications"}>Applications</NavLink>
+            <NavLink to={"/dashboard/assign-rider"}>
+              <FaUserPlus /> Assign Rider
+            </NavLink>
           </li>
           <li>
-            <NavLink to={"/dashboard/riders"}>Riders</NavLink>
+            <NavLink to={"/dashboard/wire-house"}>
+              <FaWarehouse /> Wire House
+            </NavLink>
           </li>
           <li>
-            <NavLink to={"/dashboard/assign-rider"}>Assign Rider</NavLink>
+            <NavLink to={"/dashboard/parcel-history"}>
+              <FaHistory /> Parcel History
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={"/dashboard/rider-applications"}>
+              <FaClipboardList /> Applications
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={"/dashboard/riders"}>
+              <FaUsers /> Riders
+            </NavLink>
           </li>
         </>
       )}
+
+      {/* user links */}
+      {!roleLoading && userRole === "user" && (
+        <>
+          <li>
+            <NavLink to={"/dashboard/my-parcels"}>
+              <FaBox /> My Parcels
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={"/dashboard/payment-history"}>
+              <FaCreditCard /> Payment History
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={"/dashboard/send-parcel"}>
+              <FaPaperPlane /> Send Parcel
+            </NavLink>
+          </li>
+        </>
+      )}
+
+      <li>
+        <NavLink to={"/dashboard/profile"}>
+          <FaUser /> My Profile
+        </NavLink>
+      </li>
+      <li>
+        <butotn onClick={logoutUser}>
+          <FaSignOutAlt /> Log out
+        </butotn>
+      </li>
     </>
   );
 };
