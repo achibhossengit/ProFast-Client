@@ -6,12 +6,11 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
-  updateEmail,
   updatePassword,
   reauthenticateWithCredential,
   EmailAuthProvider,
-  sendEmailVerification,
   sendPasswordResetEmail,
+  verifyBeforeUpdateEmail,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth } from "../firebase/firebase.init";
@@ -73,9 +72,12 @@ const AuthProvider = ({ children }) => {
   // Update user email (Firebase + Backend)
   const updateUserEmail = async (userPassword, newEmail) => {
     try {
+      // Step 1: Reauthenticate the user
       await reauthenticateUser(userPassword);
-      await sendEmailVerification(auth.currentUser);
-      await updateEmail(auth.currentUser, newEmail);
+
+      // Step 2: Send verification email and update email atomically
+      await verifyBeforeUpdateEmail(auth.currentUser, newEmail);
+
       return { success: true };
     } catch (error) {
       console.error("Error updating email:", error);
