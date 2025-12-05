@@ -1,25 +1,52 @@
 import { useNavigate } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { deleteUser, getAuth } from "firebase/auth";
 
 const SocialLogin = ({ from }) => {
-  const { authLoading, loginWithGoogle } = useAuth();
+  const { loginWithGoogle } = useAuth();
+  const [loginLoading, setLoginLoading] = useState(false);
   const axiosInstance = useAxios();
   const navigate = useNavigate();
-  const handleSocialLogin = () => {
-    loginWithGoogle()
-      .then(async (res) => {
-        console.log(res);
-        const email = res.user.email;
-        await axiosInstance.post("users", { email });
-        if (res.user.accessToken) navigate(from);
-      })
-      .catch((error) => console.log(error));
+  const handleSocialLogin = async () => {
+    setLoginLoading(true);
+    try {
+      const res = await loginWithGoogle();
+      const email = res.user?.email;
+      const accessToken = res.user?.accessToken;
+
+      if (accessToken) {
+        await axiosInstance.post(
+          "users",
+          { email },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+      }
+
+      navigate(from);
+    } catch {
+      // rollback Firebase user if DB or profile update fails
+      const currentUser = getAuth().currentUser;
+      if (currentUser) {
+        await deleteUser(currentUser);
+        console.warn("Firebase user deleted due to incomplete registration.");
+      }
+
+      toast.error("Login Failed! Try again later!");
+    } finally {
+      setLoginLoading(false);
+    }
   };
 
   return (
     <button
-      disabled={authLoading}
+      disabled={loginLoading}
       onClick={handleSocialLogin}
       className="btn bg-white text-black border-[#e5e5e5] w-full"
     >

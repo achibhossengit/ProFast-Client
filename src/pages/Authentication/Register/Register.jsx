@@ -15,33 +15,55 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { authLoading, createUser, updateUserProfile } = useAuth();
-  const location = useLocation();
+  const { createUser, updateUserProfile } = useAuth();
   const axiosInstance = useAxios();
-  const navigate = useNavigate();
-  const from = location.state || "/";
+  const [userLoading, setUserLoading] = useState(false);
+  const [profilePicLoading, setProfilePicLoading] = useState(false);
   const [profilePic, setProfilePic] = useState("");
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
+
   const handleImageUpload = async (e) => {
-    const image = e.target.files[0];
+    setProfilePicLoading(true);
+    try {
+      const image = e.target.files[0];
+      const formData = new FormData();
+      formData.append("image", image);
+      const uploadURL = `https://api.imgbb.com/1/upload?expiration=600&key=${
+        import.meta.env.VITE_IMGBB_API_KEY
+      }`;
 
-    const formData = new FormData();
-    formData.append("image", image);
-
-    const uploadURL = `https://api.imgbb.com/1/upload?expiration=600&key=${
-      import.meta.env.VITE_IMGBB_API_KEY
-    }`;
-    const res = await axios.post(uploadURL, formData);
-    setProfilePic(res.data.data.display_url);
+      const res = await axios.post(uploadURL, formData);
+      setProfilePic(res.data.data.display_url);
+    } catch (error) {
+      console.log(error);
+      toast.error("Image Upload Failed!");
+    } finally {
+      setProfilePicLoading(false);
+    }
   };
 
   const onSubmit = async (data) => {
+    setUserLoading(true);
     try {
       const userCredential = await createUser(data.email, data.password);
-      const email = userCredential.user.email;
+      const email = userCredential?.user?.email;
+      const accessToken = userCredential?.user?.accessToken;
 
-      // Save user to DB
-      await axiosInstance.post("users", { email });
+      if (accessToken) {
+        // Save user to DB
+        await axiosInstance.post(
+          "users",
+          { email },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+      }
 
       // Update Firebase profile
       await updateUserProfile({
@@ -49,15 +71,11 @@ const Register = () => {
         photoURL: profilePic,
       });
 
-      console.log("User created and profile updated successfully!");
-
-      if (userCredential.user?.accessToken) {
-        navigate(from);
-      }
+      navigate(from);
     } catch (error) {
       console.error("Something went wrong:", error);
 
-      // Optional: rollback Firebase user if DB or profile update fails
+      // rollback Firebase user if DB or profile update fails
       const currentUser = getAuth().currentUser;
       if (currentUser) {
         await deleteUser(currentUser);
@@ -66,6 +84,8 @@ const Register = () => {
 
       // Show user-friendly error
       toast.error("Registration failed. Please try again.");
+    } finally {
+      setUserLoading(false);
     }
   };
 
@@ -124,10 +144,10 @@ const Register = () => {
         </span>
 
         <button
-          disabled={authLoading}
+          disabled={userLoading || profilePicLoading}
           className="btn btn-primary text-black mt-4"
         >
-          {authLoading ? "Registering..." : "Register"}
+          {userLoading ? "Registering..." : "Register"}
         </button>
       </form>
 

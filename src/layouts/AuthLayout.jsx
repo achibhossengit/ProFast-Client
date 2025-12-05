@@ -4,7 +4,7 @@ import authImg from "../assets/authImage.png";
 
 const AuthLayout = () => {
   return (
-    <div className="bg-base-200 ">
+    <div className="bg-base-200 min-h-screen">
       <div className="max-w-[1440px] mx-auto">
         <div className="flex flex-col md:flex-row">
           {/* Left Section */}

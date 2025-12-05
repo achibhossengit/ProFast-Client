@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../Shared/SocialLogin";
 import useAuth from "../../../hooks/useAuth";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const {
@@ -10,18 +12,27 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const { loginUser, authLoading } = useAuth();
+  const { loginUser } = useAuth();
+  const [loginLoading, setLoginLoading] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state || "/";
 
-  const onSubmit = (data) => {
-    loginUser(data.email, data.password)
-      .then((res) => {
-        if (res?.user?.accessToken) navigate(from);
-      })
-      .catch((error) => console.log(error));
+  const onSubmit = async (data) => {
+    console.log(data);
+    setLoginLoading(true)
+    try {
+      const res = await loginUser(data.email, data.password);
+      if (res.user?.accessToken) {
+        navigate(from);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Login Failed Chceck Email and password");
+    } finally {
+      setLoginLoading(false);
+    }
   };
   return (
     <div>
@@ -55,12 +66,12 @@ const Login = () => {
           placeholder="Password"
         />
 
-        <Link className="text-secondary hover:text-green-600 mt-4">
+        <Link to={'/forgot-password'} className="text-secondary hover:text-green-600 mt-4">
           Forgot Password?
         </Link>
 
-        <button disabled={authLoading} className="btn btn-primary text-black">
-          {authLoading ? "Loging..." : "Login"}{" "}
+        <button disabled={loginLoading} className="btn btn-primary text-black">
+          {loginLoading ? "Loging in..." : "Login"}{" "}
         </button>
       </form>
 

@@ -25,6 +25,9 @@ import PendingDeliveries from "../pages/Dashboard/PendingDeliveries/PendingDeliv
 import CompeletedDeliveries from "../pages/Dashboard/CompeletedDeliveries/CompeletedDeliveries";
 import MyEarnings from "../pages/Dashboard/MyEarnings/MyEarnings";
 import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
+import Profile from "../pages/Dashboard/MyProfile/Profile";
+import NonLoggedInRoutes from "../routes/NonLoggedInRoutes";
+import ForgotPassword from "../pages/Authentication/ForgotPassword/ForgotPassword";
 
 export const router = createBrowserRouter([
   {
@@ -64,6 +67,15 @@ export const router = createBrowserRouter([
       { path: "payment-history", Component: PaymentHistory },
       { path: "track-parcel/:id?", Component: TrackParcel },
 
+      // admin only routes
+      {
+        path: "profile",
+        element: (
+          <AdminRoute>
+            <Profile />
+          </AdminRoute>
+        ),
+      },
       // admin only routes
       {
         path: "assign-rider",
@@ -119,10 +131,15 @@ export const router = createBrowserRouter([
   },
   {
     path: "/",
-    Component: AuthLayout,
+    element: (
+      <NonLoggedInRoutes>
+        <AuthLayout></AuthLayout>
+      </NonLoggedInRoutes>
+    ),
     children: [
       { path: "login", Component: Login },
       { path: "register", Component: Register },
+      { path: "forgot-password", Component: ForgotPassword },
     ],
   },
 ]);
