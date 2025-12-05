@@ -1,12 +1,12 @@
-import useUserRole from "../hooks/useUserRole";
 import useAuth from "../hooks/useAuth";
 import LoadingSpinner from "../pages/Shared/LoadingSpinner";
 
 const RiderRoute = ({ children }) => {
-  const { userRole, roleLoading } = useUserRole();
+  const { user, authLoading } = useAuth();
+  const userRole = user?.role;
   const { logoutUser } = useAuth();
 
-  if (roleLoading) return <LoadingSpinner></LoadingSpinner>;
+  if (authLoading) return <LoadingSpinner></LoadingSpinner>;
 
   if (!userRole || userRole !== "rider") {
     return logoutUser();

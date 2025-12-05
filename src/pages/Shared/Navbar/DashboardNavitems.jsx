@@ -1,5 +1,4 @@
 import { NavLink } from "react-router";
-import useUserRole from "../../../hooks/useUserRole";
 import {
   FaBox,
   FaCreditCard,
@@ -20,12 +19,12 @@ import { useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 const DashboardNavitems = () => {
-  const { logoutUser } = useContext(AuthContext);
-  const { userRole, roleLoading } = useUserRole();
+  const { logoutUser, user } = useContext(AuthContext);
+  const userRole = user?.role;
   return (
     <>
       {/* rider links */}
-      {!roleLoading && userRole === "rider" && (
+      {userRole === "rider" && (
         <>
           <li>
             <NavLink to={"/dashboard/pendingDeliveries"}>
@@ -51,7 +50,7 @@ const DashboardNavitems = () => {
       )}
 
       {/* admin links */}
-      {!roleLoading && userRole === "admin" && (
+      {userRole === "admin" && (
         <>
           <li>
             <NavLink to={"/dashboard/assign-rider"}>
@@ -82,7 +81,7 @@ const DashboardNavitems = () => {
       )}
 
       {/* user links */}
-      {!roleLoading && userRole === "user" && (
+      {userRole === "user" && (
         <>
           <li>
             <NavLink to={"/dashboard/my-parcels"}>

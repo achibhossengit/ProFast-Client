@@ -1,18 +1,18 @@
 import useAuth from "../hooks/useAuth";
-import useUserRole from "../hooks/useUserRole";
 import LoadingSpinner from "../pages/Shared/LoadingSpinner";
 
-const AdminRoute = ({children}) => {
-    const {userRole , roleLoading} = useUserRole()
-    const {logoutUser} = useAuth()
+const AdminRoute = ({ children }) => {
+  const { user, authLoading } = useAuth();
+  const userRole = user.role;
+  const { logoutUser } = useAuth();
 
-    if(roleLoading) return <LoadingSpinner></LoadingSpinner>
+  if (authLoading) return <LoadingSpinner></LoadingSpinner>;
 
-    if(!userRole || userRole !== 'admin') {
-        return logoutUser();
-    }
-    
-    return children
+  if (!userRole || userRole !== "admin") {
+    return logoutUser();
+  }
+
+  return children;
 };
 
 export default AdminRoute;

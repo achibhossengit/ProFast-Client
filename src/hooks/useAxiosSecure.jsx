@@ -4,9 +4,10 @@ import { useNavigate } from "react-router";
 
 const useAxiosSecure = () => {
   const { user, logoutUser } = useAuth();
+
   const navigate = useNavigate();
   const axiosSecure = axios.create({
-    baseURL: "https://pro-fast-server-rose.vercel.app/",
+    baseURL: import.meta.env.VITE_SERVER_URL,
   });
 
   axiosSecure.interceptors.request.use(async (config) => {

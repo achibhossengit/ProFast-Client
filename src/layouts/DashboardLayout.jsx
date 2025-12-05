@@ -2,8 +2,10 @@ import { Outlet } from "react-router";
 import DashboardNavitems from "../pages/Shared/Navbar/DashboardNavitems";
 import Logo from "../pages/Shared/Logo/Logo";
 import { FaArrowRightToBracket } from "react-icons/fa6";
+import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
+  const { user } = useAuth();
   return (
     <div>
       <div className="drawer lg:drawer-open">
@@ -19,8 +21,20 @@ const DashboardLayout = () => {
               {/* Sidebar toggle icon */}
               <FaArrowRightToBracket />
             </label>
-            <div className="px-4">
-              <Logo></Logo>
+
+            <div className="flex justify-center items-center gap-2">
+              <h2 className="text-xl font-bold">{user?.displayName}</h2>
+              <div className="avatar w-10 h-10">
+              <img
+                alt="Pro"
+                className="rounded-full"
+                src={
+                  user?.photoURL ||
+                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                }
+              />
+
+              </div>
             </div>
           </nav>
           {/* Page content here */}

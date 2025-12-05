@@ -3,7 +3,7 @@ import Logo from "../Logo/Logo";
 import useAuth from "../../../hooks/useAuth";
 
 const Navbar = ({ NavItems }) => {
-  const { user, logoutUser } = useAuth();
+  const { user, logoutUser, authLoading } = useAuth();
   const navigate = useNavigate();
   const handleLogout = () => {
     logoutUser()
@@ -44,19 +44,9 @@ const Navbar = ({ NavItems }) => {
         <ul className="menu menu-horizontal px-1">{NavItems}</ul>
       </div>
       <div className="navbar-end gap-2">
-        {!user ? (
-          <>
-            <Link
-              to={"/login"}
-              className="btn btn-outline btn-primary text-black"
-            >
-              Login
-            </Link>
-            <Link to={"/register"} className="btn btn-primary">
-              Register
-            </Link>
-          </>
-        ) : (
+        {authLoading ? (
+          <span className="loading loading-spinner"></span>
+        ) : user ? (
           <>
             <div className="flex gap-2">
               <div className="dropdown dropdown-end">
@@ -68,7 +58,11 @@ const Navbar = ({ NavItems }) => {
                   <div className="w-10 rounded-full">
                     <img
                       alt="Tailwind CSS Navbar component"
-                      src={user.photoURL ? user.photoURL : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"}
+                      src={
+                        user.photoURL
+                          ? user.photoURL
+                          : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                      }
                     />
                   </div>
                 </div>
@@ -87,6 +81,18 @@ const Navbar = ({ NavItems }) => {
                 </ul>
               </div>
             </div>
+          </>
+        ) : (
+          <>
+            <Link
+              to={"/login"}
+              className="btn btn-outline btn-primary text-black"
+            >
+              Login
+            </Link>
+            <Link to={"/register"} className="btn btn-primary">
+              Register
+            </Link>
           </>
         )}
       </div>
