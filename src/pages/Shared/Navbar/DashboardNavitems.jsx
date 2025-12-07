@@ -73,8 +73,9 @@ const DashboardNavitems = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to={"/dashboard/riders"}>
-              <FaUsers /> Riders
+            <NavLink to={"/dashboard/users"}>
+              <FaUsers />
+              Users
             </NavLink>
           </li>
         </>

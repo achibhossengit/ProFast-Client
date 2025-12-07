@@ -28,6 +28,8 @@ import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
 import Profile from "../pages/Dashboard/MyProfile/Profile";
 import NonLoggedInRoutes from "../routes/NonLoggedInRoutes";
 import ForgotPassword from "../pages/Authentication/ForgotPassword/ForgotPassword";
+import Users from "../pages/Users/Users";
+import UserDetails from "../pages/UserDetails/UserDetails";
 
 export const router = createBrowserRouter([
   {
@@ -66,16 +68,8 @@ export const router = createBrowserRouter([
       },
       { path: "payment-history", Component: PaymentHistory },
       { path: "track-parcel/:id?", Component: TrackParcel },
+      { path: "profile", Component: Profile },
 
-      // admin only routes
-      {
-        path: "profile",
-        element: (
-          <AdminRoute>
-            <Profile />
-          </AdminRoute>
-        ),
-      },
       // admin only routes
       {
         path: "assign-rider",
@@ -94,10 +88,18 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "riders",
+        path: "users",
         element: (
           <AdminRoute>
-            <ActiveRiders />
+            <Users />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "users/:email",
+        element: (
+          <AdminRoute>
+            <UserDetails />
           </AdminRoute>
         ),
       },
