@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 import BangladeshMap from "./BangladeshMap";
-import data from "../../assets/warehouses.json";
+import { WarehouseContext } from "../../contexts/WarehouseContext";
 
 const Coverage = () => {
+  const { warehouseColl } = useContext(WarehouseContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [notFound, setNotFound] = useState(false);
 
   const handleSearch = () => {
-    const found = data.find((place) =>
+    const found = warehouseColl.find((place) =>
       place.district.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -51,7 +52,7 @@ const Coverage = () => {
       )}
 
       {/* Bangladesh Map */}
-      <BangladeshMap data={data} selectedDistrict={selectedDistrict} />
+      <BangladeshMap data={warehouseColl} selectedDistrict={selectedDistrict} />
     </div>
   );
 };

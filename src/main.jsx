@@ -8,6 +8,7 @@ import Aos from "aos";
 import AuthProvider from "./contexts/AuthProvider.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import WarehouseProvider from "./contexts/WarehouseProvider.jsx";
 
 Aos.init({ duration: 2000 });
 const queryClient = new QueryClient();
@@ -15,12 +16,14 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <div className="font-urbanist">
-          <Toaster />
-          <RouterProvider router={router}></RouterProvider>
-        </div>
-      </AuthProvider>
+      <WarehouseProvider>
+        <AuthProvider>
+          <div className="font-urbanist">
+            <Toaster />
+            <RouterProvider router={router}></RouterProvider>
+          </div>
+        </AuthProvider>
+      </WarehouseProvider>
     </QueryClientProvider>
   </StrictMode>
 );
