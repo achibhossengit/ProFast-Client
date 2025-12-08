@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+// eslint-disable-next-line
 import { motion } from "framer-motion";
 import {
   MdInventory,
@@ -59,10 +60,27 @@ const TrackParcel = () => {
 
   // Status flow
   const statusSteps = [
-    { id: "not-collected", label: "Not Collected", icon: <MdInventory size={30} /> },
-    { id: "way-to-collect", label: "Way to Collect", icon: <MdOutlineMoveUp size={30} /> },
-    { id: "collected", label: "Collected", icon: <MdOutlineDownloadDone size={30} /> },
-    { id: "way-to-deliver", label: "On The Way", icon: <MdLocalShipping size={30} /> },
+    { id: "pending", label: "Pending", icon: <MdInventory size={30} /> },
+    {
+      id: "collecting",
+      label: "Collecting",
+      icon: <MdOutlineMoveUp size={30} />,
+    },
+    {
+      id: "collected",
+      label: "Collected",
+      icon: <MdOutlineDownloadDone size={30} />,
+    },
+    {
+      id: "sendWarehouse",
+      label: "In Warehouse",
+      icon: <MdOutlineDownloadDone size={30} />,
+    },
+    {
+      id: "delivering",
+      label: "Delevering",
+      icon: <MdLocalShipping size={30} />,
+    },
     { id: "delivered", label: "Delivered", icon: <MdDoneAll size={30} /> },
   ];
 
@@ -72,10 +90,15 @@ const TrackParcel = () => {
 
   return (
     <div className="p-5 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-3 text-center">Track Your Parcel</h2>
+      <h2 className="text-2xl font-semibold mb-3 text-center">
+        Track Your Parcel
+      </h2>
 
       {/* Search Form */}
-      <form onSubmit={handleSearch} className="flex gap-2 mb-4 justify-center items-center">
+      <form
+        onSubmit={handleSearch}
+        className="flex gap-2 mb-4 justify-center items-center"
+      >
         <input
           type="text"
           name="parcelId"
@@ -102,7 +125,8 @@ const TrackParcel = () => {
           className="border p-4 rounded-md shadow-sm mt-4"
         >
           <p>
-            <span className="font-semibold">Parcel Name:</span> {parcel.parcel_name}
+            <span className="font-semibold">Parcel Name:</span>{" "}
+            {parcel.parcel_name}
           </p>
           <p>
             <span className="font-semibold">Delivery Status:</span>{" "}
@@ -135,7 +159,9 @@ const TrackParcel = () => {
                     </motion.div>
                     <p
                       className={`text-sm mt-2 ${
-                        isActive ? "text-primary font-semibold" : "text-gray-400"
+                        isActive
+                          ? "text-primary font-semibold"
+                          : "text-gray-400"
                       }`}
                     >
                       {step.label}
@@ -148,7 +174,9 @@ const TrackParcel = () => {
             {/* Animated Progress Line */}
             <motion.div
               initial={{ width: 0 }}
-              animate={{ width: `${(currentStep / (statusSteps.length - 1)) * 100}%` }}
+              animate={{
+                width: `${(currentStep / (statusSteps.length - 1)) * 100}%`,
+              }}
               transition={{ duration: 0.8 }}
               className="absolute top-[26px] left-0 h-[3px] bg-primary -z-0"
             ></motion.div>

@@ -1,33 +1,30 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useNavigate, useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaBox, FaTrash, FaEdit, FaTimes, FaSave } from "react-icons/fa";
 import Swal from "sweetalert2";
 import ParcelForm from "../Shared/ParcelForm";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import useAuth from "../../../hooks/useAuth";
 
 const ParcelDetails = () => {
   const { id } = useParams();
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [isEditMode, setIsEditMode] = useState(false);
   const { register, handleSubmit, watch, reset } = useForm();
   const navigate = useNavigate();
 
-  const { data: parcel } = useQuery({
+  const { data: parcel = {} } = useQuery({
     queryKey: ["parcel", id],
     queryFn: async () => {
       const res = await axiosSecure.get(`parcels/${id}`);
+      reset(res.data);
       return res.data;
     },
   });
-
-  useEffect(() => {
-    if (parcel) {
-      reset(parcel);
-    }
-  }, [parcel]);
 
   const updateMutation = useMutation({
     mutationFn: (updatedData) => {
@@ -50,7 +47,7 @@ const ParcelDetails = () => {
     },
     onSuccess: () => {
       toast.success(`${parcel.parcel_name} is deleted successfully!`);
-      navigate("/dashboard/my-parcels");
+      navigate("/dashboard/parcels/all/all");
     },
     onError: (error) => {
       console.log(error);
@@ -93,6 +90,12 @@ const ParcelDetails = () => {
     }
   };
 
+  const { delivery_status, payment_status, created_by } = parcel;
+  const isEditable =
+    delivery_status === "pending" &&
+    payment_status === "unpaid" &&
+    created_by === user.email;
+
   return (
     <form
       onSubmit={handleSubmit(updateMutation.mutate)}
@@ -107,6 +110,7 @@ const ParcelDetails = () => {
         {!isEditMode ? (
           <div className="flex gap-2">
             <button
+              disabled={!isEditable}
               type="button"
               onClick={(e) => {
                 e.preventDefault();
@@ -118,6 +122,7 @@ const ParcelDetails = () => {
               Edit Parcel
             </button>
             <button
+              disabled={!isEditable}
               type="button"
               onClick={handleDelete}
               className="btn btn-error btn-sm gap-2"

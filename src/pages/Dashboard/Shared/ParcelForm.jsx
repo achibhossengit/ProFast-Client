@@ -1,32 +1,34 @@
 import { MdErrorOutline } from "react-icons/md";
-import warehouses from "../../../assets/warehouses.json";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import { useContext } from "react";
+import { WarehouseContext } from "../../../contexts/WarehouseContext";
 
-const ParcelForm = ({ register, watch, disable = false }) => {
+const ParcelForm = ({
+  register,
+  watch,
+  disable = false,
+  resetField,
+  setValue,
+}) => {
   const { user } = useAuth();
-  const parcelType = watch("parcel_type", "Document");
+  const {
+    getRegions,
+    getDistrictsByRegion,
+    getCitiesByDistrict,
+    getAreasByCity,
+  } = useContext(WarehouseContext);
 
+  const parcelType = watch("parcel_type", "Document");
   // --- Sender dependent states ---
   const senderRegion = watch("sender_region");
   const senderDistrict = watch("sender_district");
+  const senderCity = watch("sender_city");
 
   // --- Receiver dependent states ---
   const receiverRegion = watch("receiver_region");
   const receiverDistrict = watch("receiver_district");
-
-  //   filter functions
-  const findDistricts = (region) => {
-    const filtered = warehouses.filter((w) => w.region === region);
-    const dist = [...new Set(filtered.map((w) => w.district))];
-    return dist;
-  };
-
-  const findAreaList = (district) => {
-    const filtered = warehouses.filter((w) => w.district === district);
-    const areaList = filtered.flatMap((w) => w.covered_area);
-    return areaList;
-  };
+  const receiverCity = watch("receiver_city");
 
   // --- Show Pricing Modal Handler ---
   const showPricing = () => {
@@ -169,17 +171,24 @@ const ParcelForm = ({ register, watch, disable = false }) => {
             </div>
           </div>
 
-          {/* Region / District / Area */}
+          {/* Region / District */}
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="form-control w-full">
               <label className="label">Region</label>
               <select
                 {...register("sender_region")}
+                onChange={(e) => {
+                  const newRegion = e.target.value;
+                  setValue("sender_region", newRegion);
+                  resetField("sender_district", { defaultValue: "" });
+                  resetField("sender_city", { defaultValue: "" });
+                  resetField("sender_area", { defaultValue: "" });
+                }}
                 className="select select-bordered w-full"
                 disabled={disable}
               >
                 <option value="">Select Region</option>
-                {[...new Set(warehouses.map((w) => w.region))].map((r) => (
+                {getRegions().map((r) => (
                   <option key={r} value={r}>
                     {r}
                   </option>
@@ -190,13 +199,42 @@ const ParcelForm = ({ register, watch, disable = false }) => {
               <label className="label">District</label>
               <select
                 {...register("sender_district")}
+                onChange={(e) => {
+                  const newDistrict = e.target.value;
+                  setValue("sender_district", newDistrict);
+                  resetField("sender_city", { defaultValue: "" });
+                  resetField("sender_area", { defaultValue: "" });
+                }}
                 className="select select-bordered w-full"
                 disabled={disable}
               >
                 <option value="">Select District</option>
-                {findDistricts(senderRegion).map((d) => (
+                {getDistrictsByRegion(senderRegion).map((d) => (
                   <option key={d} value={d}>
                     {d}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {/* City / Area */}
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="form-control w-full">
+              <label className="label">City</label>
+              <select
+                {...register("sender_city")}
+                onChange={(e) => {
+                  const newCity = e.target.value;
+                  setValue("sender_city", newCity);
+                  resetField("sender_area", { defaultValue: "" });
+                }}
+                className="select select-bordered w-full"
+                disabled={disable}
+              >
+                <option value="">Select City</option>
+                {getCitiesByDistrict(senderDistrict).map((a) => (
+                  <option key={a} value={a}>
+                    {a}
                   </option>
                 ))}
               </select>
@@ -209,7 +247,7 @@ const ParcelForm = ({ register, watch, disable = false }) => {
                 disabled={disable}
               >
                 <option value="">Select Area</option>
-                {findAreaList(senderDistrict).map((a) => (
+                {getAreasByCity(senderCity).map((a) => (
                   <option key={a} value={a}>
                     {a}
                   </option>
@@ -268,17 +306,24 @@ const ParcelForm = ({ register, watch, disable = false }) => {
             </div>
           </div>
 
-          {/* Region / District / Area */}
+          {/* Region / District */}
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="form-control w-full">
               <label className="label">Receiver Region</label>
               <select
                 {...register("receiver_region")}
+                onChange={(e) => {
+                  const newRegion = e.target.value;
+                  setValue("receiver_region", newRegion);
+                  resetField("receiver_district", { defaultValue: "" });
+                  resetField("receiver_city", { defaultValue: "" });
+                  resetField("receiver_area", { defaultValue: "" });
+                }}
                 className="select select-bordered w-full"
                 disabled={disable}
               >
                 <option value="">Select Region</option>
-                {[...new Set(warehouses.map((w) => w.region))].map((r) => (
+                {getRegions().map((r) => (
                   <option key={r} value={r}>
                     {r}
                   </option>
@@ -289,17 +334,48 @@ const ParcelForm = ({ register, watch, disable = false }) => {
               <label className="label">Receiver District</label>
               <select
                 {...register("receiver_district")}
+                onChange={(e) => {
+                  const newDistrict = e.target.value;
+                  setValue("receiver_district", newDistrict);
+                  resetField("receiver_city", { defaultValue: "" });
+                  resetField("receiver_area", { defaultValue: "" });
+                }}
                 className="select select-bordered w-full"
                 disabled={disable}
               >
                 <option value="">Select District</option>
-                {findDistricts(receiverRegion).map((d) => (
+                {getDistrictsByRegion(receiverRegion).map((d) => (
                   <option key={d} value={d}>
                     {d}
                   </option>
                 ))}
               </select>
             </div>
+          </div>
+
+          {/* Cities / Area */}
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="form-control w-full">
+              <label className="label">Receiver City</label>
+              <select
+                {...register("receiver_city")}
+                onChange={(e) => {
+                  const newCity = e.target.value;
+                  setValue("receiver_city", newCity);
+                  resetField("receiver_area", { defaultValue: "" });
+                }}
+                className="select select-bordered w-full"
+                disabled={disable}
+              >
+                <option value="">Select City</option>
+                {getCitiesByDistrict(receiverDistrict).map((a) => (
+                  <option key={a} value={a}>
+                    {a}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="form-control w-full">
               <label className="label">Receiver Area</label>
               <select
@@ -308,7 +384,7 @@ const ParcelForm = ({ register, watch, disable = false }) => {
                 disabled={disable}
               >
                 <option value="">Select Area</option>
-                {findAreaList(receiverDistrict).map((a) => (
+                {getAreasByCity(receiverCity).map((a) => (
                   <option key={a} value={a}>
                     {a}
                   </option>

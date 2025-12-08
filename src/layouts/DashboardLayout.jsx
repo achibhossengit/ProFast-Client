@@ -1,11 +1,11 @@
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 import DashboardNavitems from "../pages/Shared/Navbar/DashboardNavitems";
 import Logo from "../pages/Shared/Logo/Logo";
 import { FaArrowRightToBracket } from "react-icons/fa6";
 import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
-  const { user } = useAuth();
+  const { user, logoutUser } = useAuth();
   return (
     <div>
       <div className="drawer lg:drawer-open">
@@ -24,16 +24,38 @@ const DashboardLayout = () => {
 
             <div className="flex justify-center items-center gap-2">
               <h2 className="text-xl font-bold">{user?.displayName}</h2>
-              <div className="avatar w-10 h-10">
-              <img
-                alt="Pro"
-                className="rounded-full"
-                src={
-                  user?.photoURL ||
-                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                }
-              />
 
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-10 rounded-full">
+                    <img
+                      alt="Tailwind CSS Navbar component"
+                      src={user?.photoURL || "/default-avatar.png"}
+                    />
+                  </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                >
+                  <li>
+                    <Link to={"/"} className="justify-between">
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={"/dashboard/profile"} className="justify-between">
+                      Profile
+                    </Link>
+                  </li>
+                  <li onClick={() => logoutUser()}>
+                    <a>Logout</a>
+                  </li>
+                </ul>
               </div>
             </div>
           </nav>

@@ -28,6 +28,8 @@ const AdminDashboard = () => {
     },
   });
 
+  console.log(statusCounts);
+
   if (isLoading) return <LoadingSpinner />;
 
   const statusIcons = {
