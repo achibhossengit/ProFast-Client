@@ -1,9 +1,4 @@
-import {
-  CardElement,
-  PaymentElement,
-  useElements,
-  useStripe,
-} from "@stripe/react-stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -59,7 +54,7 @@ const PaymentForm = () => {
 
       // fetch secret key
       const amountInCents = parcel.cost * 100;
-      const res = await axiosSecure.post("create-payment-intent", {
+      const res = await axiosSecure.post("payments/create-intent", {
         amountInCents,
         parcelId,
       });
@@ -94,12 +89,12 @@ const PaymentForm = () => {
           setPaymentLoading(false);
           Swal.fire({
             title: "Good job!",
-            text: "Payment is getting successfully. Redirect to Myparcel page.",
+            text: "Payment is getting successfully. Redirect to Parcels page.",
             icon: "success",
             allowOutsideClick: false,
           }).then((result) => {
             if (result.isConfirmed) {
-              navigate("/dashboard/my-parcels");
+              navigate("/dashboard/parcels/all/all");
             }
           });
         }

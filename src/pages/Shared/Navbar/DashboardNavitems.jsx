@@ -5,14 +5,10 @@ import {
   FaPaperPlane,
   FaUser,
   FaTruck,
-  FaCheckCircle,
   FaDollarSign,
   FaClipboardList,
   FaUsers,
-  FaUserPlus,
-  FaClipboardCheck,
   FaWarehouse,
-  FaHistory,
   FaSignOutAlt,
 } from "react-icons/fa";
 import { useContext } from "react";
@@ -23,26 +19,27 @@ const DashboardNavitems = () => {
   const userRole = user?.role;
   return (
     <>
+      <li>
+        <NavLink to={"/dashboard/send-parcel"}>
+          <FaPaperPlane /> Send Parcel
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={"/dashboard/parcels/all/all"}>
+          <FaTruck /> Manage Parcels
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={"/dashboard/payment-history"}>
+          <FaCreditCard /> Payment History
+        </NavLink>
+      </li>
+
       {/* rider links */}
       {userRole === "rider" && (
         <>
           <li>
-            <NavLink to={"/dashboard/pendingDeliveries"}>
-              <FaTruck /> Pending Delivery
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={"/dashboard/completedDeliveries"}>
-              <FaCheckCircle /> Completed
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={"/dashboard/myDeliveries"}>
-              <FaClipboardCheck /> My Deliveries
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={"/dashboard/myEarnings"}>
+            <NavLink to={"/dashboard/my-earnings"}>
               <FaDollarSign /> Earnings
             </NavLink>
           </li>
@@ -53,18 +50,8 @@ const DashboardNavitems = () => {
       {userRole === "admin" && (
         <>
           <li>
-            <NavLink to={"/dashboard/assign-rider"}>
-              <FaUserPlus /> Assign Rider
-            </NavLink>
-          </li>
-          <li>
             <NavLink to={"/dashboard/wire-house"}>
-              <FaWarehouse /> Wire House
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={"/dashboard/parcel-history"}>
-              <FaHistory /> Parcel History
+              <FaWarehouse /> Wire Houses
             </NavLink>
           </li>
           <li>
@@ -73,30 +60,9 @@ const DashboardNavitems = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to={"/dashboard/users"}>
+            <NavLink to={"/dashboard/users/all/all"}>
               <FaUsers />
-              Users
-            </NavLink>
-          </li>
-        </>
-      )}
-
-      {/* user links */}
-      {userRole === "user" && (
-        <>
-          <li>
-            <NavLink to={"/dashboard/my-parcels"}>
-              <FaBox /> My Parcels
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={"/dashboard/payment-history"}>
-              <FaCreditCard /> Payment History
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={"/dashboard/send-parcel"}>
-              <FaPaperPlane /> Send Parcel
+              Manage Users
             </NavLink>
           </li>
         </>
