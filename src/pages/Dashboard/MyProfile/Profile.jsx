@@ -283,7 +283,10 @@ const Profile = () => {
             <p className="text-gray-600">{user?.email}</p>
             <button
               className="btn btn-xs btn-ghost btn-circle"
-              onClick={() => setIsEmailModalOpen(true)}
+              onClick={() => {
+                // setIsEmailModalOpen(true)
+                toast.error("Feature disabled for demo purposes.");
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -335,7 +338,10 @@ const Profile = () => {
               <div className="flex gap-2 items-center">
                 <button
                   className="btn btn-xs btn-outline btn-error"
-                  onClick={() => setIsPasswordModalOpen(true)}
+                  onClick={() => {
+                    // setIsPasswordModalOpen(true);
+                    toast.error("Feature disabled for demo purposes.");
+                  }}
                 >
                   Change Password
                 </button>

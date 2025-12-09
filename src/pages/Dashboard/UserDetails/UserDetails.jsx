@@ -21,6 +21,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const UserDetails = () => {
   const { email } = useParams();
@@ -66,7 +67,8 @@ const UserDetails = () => {
     });
 
     if (result.isConfirmed) {
-      deleteUserMutation.mutate();
+      toast.error("Feature disabled for demo purposes.");
+      // deleteUserMutation.mutate();
     }
   };
 
