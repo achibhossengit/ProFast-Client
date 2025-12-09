@@ -30,33 +30,30 @@ const PaymentHistory = () => {
   });
 
   return (
-    <div className="">
+    <div className="min-h-[70vh]">
       <h2 className="text-2xl font-semibold mb-4">My Payment History</h2>
 
-      <div className="overflow-x-auto rounded-lg shadow min-h-[70vh]">
+      <div className="overflow-x-auto rounded-lg shadow">
         <table className="table w-full table-zebra">
           <thead className="bg-gray-100">
             <tr>
               <th>#</th>
               <th>Date</th>
               <th>Amount</th>
-              <th>Currency</th>
-              <th>Status</th>
               <th>Payment Method</th>
               <th>Parcel ID</th>
-              <th>Transaction ID</th>
             </tr>
           </thead>
           <tbody>
             {isLoading ? (
               <tr>
-                <td colSpan={8} className="text-center py-6">
+                <td colSpan={8} className="text-center">
                   <LoadingSpinner />
                 </td>
               </tr>
             ) : payments.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center py-6 text-gray-500">
+                <td colSpan={8} className="text-center text-gray-500">
                   No payment history found.
                 </td>
               </tr>
@@ -70,12 +67,11 @@ const PaymentHistory = () => {
                       timeStyle: "short",
                     })}
                   </td>
-                  <td>${payment.amount}</td>
-                  <td>{payment.currency?.toUpperCase()}</td>
-                  <td>{payment.status}</td>
+                  <td>
+                    {payment.amount} {payment.currency?.toUpperCase()}
+                  </td>
                   <td>{payment.paymentMethod}</td>
                   <td>{payment.parcelId}</td>
-                  <td>{payment.transactionId}</td>
                 </tr>
               ))
             )}
